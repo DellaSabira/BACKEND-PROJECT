@@ -1,10 +1,11 @@
 const express = require("express");
 const path = require('path');
+const cors = require('cors');
 const app = express();
 
 // node serve the files for our react app
-app.use(expree.static(path.resolve(__dirname, '../client/build')));
-
+app.use(express.static(path.resolve(__dirname, '../client/build')));
+app.use(cors());
 // handle gt request 
 app.get('/api', (req, res) => {
     res.json({message: "hello from server!"});

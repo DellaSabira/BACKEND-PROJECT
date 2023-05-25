@@ -1,24 +1,27 @@
-import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
-function App() {
-  const [data,setData] = React.useState(null);
+const MyComponent = () => {
+  const [data, setData] = useState(null);
 
-  React.useEffect(() => {
-    fetch("/api")
-    .then((res) => res.json)
-    .then((data) => setData(data.message));
-  },[]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('/api/data');
+        setData(response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
-    <div className="app">
-      <header className="app-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>{!data ? "loading..." :data}</p>
-      </header>
+    <div>
+      {data ? <p>{data.message}</p> : <p>Loading...</p>}
     </div>
   );
-}
+};
 
-export default App;
+export default MyComponent;
